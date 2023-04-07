@@ -15,6 +15,9 @@ class Validator
 		$this->makeValidation();
 	}
 
+	/**
+	 * valida la data
+	 */
 	public function makeValidation()
 	{
 		foreach ($this->data as $key => $value) {
@@ -35,21 +38,42 @@ class Validator
 		}
 	}
 
+	/**
+	 * agrega los errores encontrados
+	 *
+	 * @param key string
+	 * @param error string
+	 */
 	public function setError($key, $error)
 	{
 		$this->errors[$key][] = $error;
 	}
 
+	/**
+	 * devuelve si la validación es correcta
+	 *
+	 */
 	public function isValid()
 	{
 		return $this->valid;
 	}
 
+	/**
+	 * devuelve los errores de validación.
+	 *
+	 */
 	public function getErrors()
 	{
 		return $this->errors;
 	}
 
+	/**
+	 * valida requerido.
+	 *
+	 * @param key string
+	 * @param value string
+	 *
+	 */
 	public function required($key, $value)
 	{
 		if(is_string($value)){
@@ -63,6 +87,13 @@ class Validator
 		return true;
 	}
 
+	/**
+	 * valida nombre.
+	 *
+	 * @param key string
+	 * @param value string
+	 *
+	 */
 	public function name($key, $value)
 	{
 		if (!preg_match("/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ ]*$/", $value)) {
@@ -73,23 +104,26 @@ class Validator
 		return true;
 	}
 
+	/**
+	 * valida rut.
+	 *
+	 * @param key string
+	 * @param value string
+	 *
+	 */
 	public function rut($key, $value)
 	{
-		// Limpia el RUT de cualquier caracter no numérico excepto K/k.
 		$value = preg_replace('/[^0-9Kk]/', '', $value);
 
-		// Si la cadena tiene menos de 8 dígitos, no es un RUT válido.
 		if (strlen($value) < 8) {
 			$this->valid = false;
 			$this->setError($key, "El campo $key debe ser un rut válido");
 			return false;
 		}
 
-		// Separa el dígito verificador del RUT.
 		$dv = strtoupper(substr($value, -1));
 		$numero = substr($value, 0, -1);
 
-		// Calcula el dígito verificador utilizando el algoritmo modificado de Verhoeff.
 		$sum = 0;
 		$factor = 2;
 
@@ -108,7 +142,6 @@ class Validator
 			$dv_calculado = '0';
 		}
 
-		// Compara el dígito verificador calculado con el dígito verificador dado.
 		if($dv != $dv_calculado){
 			$this->valid = false;
 			$this->setError($key, "El campo $key debe ser un rut válido");
@@ -118,6 +151,13 @@ class Validator
 	}
 
 
+	/**
+	 * valida email.
+	 *
+	 * @param key string
+	 * @param value string
+	 *
+	 */
 	public function email($key, $value)
 	{
 		$value = trim($value);
@@ -130,6 +170,13 @@ class Validator
 	}
 
 
+	/**
+	 * valida arreglo.
+	 *
+	 * @param key string
+	 * @param value string
+	 *
+	 */
 	public function array($key, $value)
 	{
 		if (!is_array($value)) {
@@ -140,6 +187,14 @@ class Validator
 		return true;
 	}
 
+	/**
+	 * valida largo mínimo.
+	 *
+	 * @param key string
+	 * @param value string
+	 * @param filter integer
+	 *
+	 */
 	public function minlength($key, $value, $filter)
 	{
 		if (is_array($value) && count($value) < $filter) {
@@ -155,6 +210,13 @@ class Validator
 		}
 	}
 
+	/**
+	 * valida alfanumérico.
+	 *
+	 * @param key string
+	 * @param value string
+	 *
+	 */
 	public function alphanumeric($key, $value)
 	{
 		if (!preg_match("/^[a-zA-Z0-9áéíóúüñÁÉÍÓÚÜÑ]*$/", $value)) {

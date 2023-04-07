@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use App\Database\MySQLDatabase;
-
-
-
 class Model
 {
 	private $db,
@@ -16,7 +13,7 @@ class Model
 
 	public function __construct($table)
 	{
-		$db = new MySQLDatabase('localhost', 'root', '', 'votaciones');
+		$db = new MySQLDatabase(env('DB_HOST'), env('DB_USER'), env('DB_PASSWD'), env('DB_NAME'));
 		$db->connect();
 		$this->table = $table;
 		$this->db = $db;
@@ -24,6 +21,12 @@ class Model
 		$this->_whereOr = [];
 	}
 
+	/**
+	 * crea un registro en la base de datos.
+	 *
+	 * @param data array.
+	 * @return si se crea correctamente el registro retorna el id del registro, si no retorna false
+	 */
 	public function create($data)
 	{
 		$data = $this->db->escape($data);
@@ -56,6 +59,12 @@ class Model
 		}
 	}
 
+	/**
+	 * busca un registro por el id
+	 *
+	 * @param id integer.
+	 * @return resultado de la consulta
+	 */
 	public function find($id)
 	{
 		$id = intval($id);
@@ -63,7 +72,12 @@ class Model
 		return $this->where('id', $id)->get();
 	}
 
-	public function get($where = [])
+	/**
+	 * busca registros
+	 *
+	 * @return resultado de la consulta
+	 */
+	public function get()
 	{
 		$sql = "SELECT * FROM $this->table";
 
@@ -100,6 +114,17 @@ class Model
 		return $this->query($sql);
 	}
 
+
+	/**
+	 * agrega clausula where (amd) a la consulta
+	 *
+	 * @param col string
+	 * @param value string
+	 * @param operator sting Posibles valores '='(default), '<', '>', '<=', '>=', '<>', '!=', 'LIKE', 'NOT LIKE',
+	 * 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN
+	 *
+	 * @return instancia actual del objeto.
+	 */
 	public function where($col, $value, $operator = '=')
 	{
 		if (is_numeric($value)) {
@@ -110,6 +135,16 @@ class Model
 		return $this;
 	}
 
+	/**
+	 * agrega clausula where (or) a la consulta
+	 *
+	 * @param col string
+	 * @param value string
+	 * @param operator sting Posibles valores '='(default), '<', '>', '<=', '>=', '<>', '!=', 'LIKE', 'NOT LIKE',
+	 * 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN
+	 *
+	 * @return instancia actual del objeto.
+	 */
 	public function whereOr($col, $value, $operator = '=')
 	{
 		if (is_numeric($value)) {
@@ -120,6 +155,14 @@ class Model
 		return $this;
 	}
 
+	/**
+	 * agrega la clausula order by clause a la consulta.
+	 *
+	 * @param orderBy string
+	 * @param order string. default 'ASC'.
+	 *
+	 * @return instancia actual del objeto.
+	 */
 	public function orderBy($orderBy, $order = 'ASC')
 	{
 		if ($orderBy) {
@@ -128,6 +171,13 @@ class Model
 		return $this;
 	}
 
+
+	/**
+	 * ejecuta la consulta
+	 *
+	 * @param sql string.
+	 * @return resultado de la consulta
+	 */
 	public function query($sql)
 	{
 		$result = $this->db->query($sql);

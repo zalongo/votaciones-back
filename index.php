@@ -1,14 +1,17 @@
 <?php
+ error_reporting(0);
+
 require_once __DIR__ . '/vendor/autoload.php';
 
+use Dotenv\Dotenv;
+use App\Controllers\Controller;
 use App\Controllers\IndexController;
 use App\Controllers\ComunasController;
 use App\Controllers\RegionesController;
 use App\Controllers\VotantesController;
 use App\Controllers\CandidatosController;
-use App\Controllers\ComoConocisteController;
-use App\Controllers\Controller;
 use App\Controllers\VotacionesController;
+use App\Controllers\ComoConocisteController;
 
 
 $url = $_SERVER['REQUEST_URI'];
@@ -19,6 +22,13 @@ $class = isset($url[0]) ? $url[0] : null;
 $method_class = isset($url[1]) ? $url[1] : 'index';
 $param = isset($url[2]) ? $url[2] : null;
 $controller = null;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+function env($key)
+{
+	return	$_ENV[$key];
+}
 
 
 // Llamar a la función correspondiente en función de la URL
@@ -58,6 +68,3 @@ if( method_exists($controller, $method_class)){
 }else{
 	Controller::returnNotFound();
 }
-
-
-?>

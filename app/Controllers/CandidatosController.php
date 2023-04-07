@@ -8,10 +8,19 @@ use App\Models\Candidato;
 class CandidatosController extends Controller
 {
 
+	/**
+	 * devuelve todos los candidatos
+	 *
+	 * @return \Controller\response
+	 */
 	public function index()
 	{
-		$CandidatoModel = new Candidato();
-		$candidatos = $CandidatoModel->get();
-		return $this->ok($candidatos);
+		try {
+			$CandidatoModel = new Candidato();
+			$candidatos = $CandidatoModel->get();
+			return $this->ok($candidatos);
+		} catch (\Throwable $th) {
+			return $this->internalServer($th->getMessage());
+		}
 	}
 }

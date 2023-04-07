@@ -11,14 +11,20 @@ use App\Models\ComoConocisteVotante;
 class VotacionesController extends Controller
 {
 
+	/**
+	 * guarda una votación
+	 *
+	 * @return \Controller\response
+	 */
 	public function guarda()
 	{
 		if (!$_POST) {
 			return $this->notFound();
 		}
 
-		$rules = [
-			'rut'            => ['required', 'rut'],
+		try {
+			$rules = [
+				'rut'            => ['required', 'rut'],
 			'nombre'         => ['required', 'name'],
 			'alias'          => ['required', 'minlength' => 5, 'alphanumeric'],
 			'email'          => ['required', 'email'],
@@ -65,22 +71,44 @@ class VotacionesController extends Controller
 			]);
 		}
 
-		return $this->ok();
+		return $this->ok(null, 'OK', 201);
+	} catch (\Throwable $th) {
+		return $this->internalServer($th->getMessage());
+	}
 	}
 
+	/**
+	 * verifica si existe una votación para un rut dado
+	 *
+	 * @param rut string
+	 * @return \Controller\response
+	 */
 	public function existe($rut = null)
 	{
-		$votacionModel = new Votacion;
-		if ($votacionModel->buscaPorRutVotante($rut)) {
-			return $this->error('Ya existe una votación registrada con este rut');
+		try {
+			$votacionModel = new Votacion;
+			if ($votacionModel->buscaPorRutVotante($rut)) {
+				return $this->error('Ya existe una votación registrada con este rut');
+			}
+			return $this->ok();
+		} catch (\Throwable $th) {
+			return $this->internalServer($th->getMessage());
 		}
-		return $this->ok();
 	}
 
+	/**
+	 * devuelve los resultados de las votaciones
+	 *
+	 * @return \Controller\response
+	 */
 	public function resultados()
 	{
-		$votacionModel = new Votacion;
-		$resultados = $votacionModel->getResultados();
-		return $this->ok($resultados);
+		try {
+			$votacionModel = new Votacion;
+			$resultados = $votacionModel->getResultados();
+			return $this->ok($resultados);
+		} catch (\Throwable $th) {
+			return $this->internalServer($th->getMessage());
+		}
 	}
 }

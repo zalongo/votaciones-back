@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-04-2023 a las 00:09:06
+-- Tiempo de generación: 07-04-2023 a las 06:20:14
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.26
 
@@ -585,7 +585,7 @@ ALTER TABLE `como_conociste`
 -- AUTO_INCREMENT de la tabla `como_conociste_votantes`
 --
 ALTER TABLE `como_conociste_votantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `comunas`
@@ -603,13 +603,13 @@ ALTER TABLE `regiones`
 -- AUTO_INCREMENT de la tabla `votaciones`
 --
 ALTER TABLE `votaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `votantes`
 --
 ALTER TABLE `votantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Restricciones para tablas volcadas
