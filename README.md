@@ -1,6 +1,7 @@
 # API Rest de Votaciones
 
 Este es un pequeño proyecto de API Rest desarrollado en PHP 7.4 con Composer y con una base de datos MySQL 5.7.24 para manejar votaciones.
+Existe una aplicación front que consume esta api, puedes encontrarla en https://github.com/zalongo/votaciones
 
 ## Endpoints
 

@@ -1,5 +1,5 @@
 API Rest de Votaciones
-Este es un pequeño proyecto de API Rest desarrollado en PHP 7.4 con Composer para manejar votaciones.
+Este es un pequeño proyecto de API Rest desarrollado en PHP 7.4 con Composer y con una base de datos MySQL 5.7.24 para manejar votaciones. Existe una aplicación front que consume esta api, puedes encontrarla en https://github.com/zalongo/votaciones
 
 Endpoints
 A continuación se describen los diferentes endpoints que se pueden utilizar en esta API:
@@ -49,6 +49,5 @@ Para instalar la aplicación, sigue estos pasos:
 Descarga o clona el repositorio en tu computadora.
 Instala las dependencias utilizando Composer: composer install.
 Crea una base de datos para la aplicación.
-Importar el archivo votaciones.sql en la base de datos
+Importar el archivo SQL/votaciones.sql en la base de datos
 Copia el archivo .env.example y renómbralo como .env. Luego, modifica las variables de entorno para que coincidan con tu configuración de base de datos.
-Inicia la aplicación: php -S localhost:8000.
